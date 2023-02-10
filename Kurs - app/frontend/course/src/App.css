@@ -1,0 +1,17 @@
+#root {
+  background-color: white;
+}
+.footer {
+  background-color: #0d8ad5;
+  width: 100%;
+  bottom: 0;
+  color: white;
+  text-align: center;
+ }
+
+ .header {
+    background-color: #0d8ad5;
+    color: white !important;
+ }
+
+ 
