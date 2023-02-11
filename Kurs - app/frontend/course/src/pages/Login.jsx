@@ -1,15 +1,17 @@
-import { Container } from "react-bootstrap";
 import NavbarHeader from "../components/Navbar";
-import { MDBContainer, MDBCol, MDBRow, MDBBtn, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
+import { MDBContainer,  MDBBtn, MDBInput, MDBCheckbox, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 import Footer from "../components/Footer";
 import { useEffect } from "react";
 import axios from 'axios';
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 const Login = () => {
+    const navigate = useNavigate();
+    const [logged, setLogged] = useState(false)
     const [users, setUsers] = useState([]);
-    const [email, setEmail] = useState("");
-    const [pass, setPass] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     useEffect(() => {
              axios.get("http://localhost:5000/api/user/")
              .then( (response) => setUsers(response.data)
@@ -17,53 +19,48 @@ const Login = () => {
     
 
     },[])
-    const getEmail = (e) =>{
-        setEmail(e.target.value);
+    const getUsername = (e) =>{
+        setUsername(e.target.value);
     }
-    const getPass = (e) =>{
-        setPass(e.target.value);
+    const getPassword = (e) =>{
+        setPassword(e.target.value);
     }
     const checkUser = () => {
      users.map(user=>{
-        if(user.korisnicko_ime === email && user.lozinka === pass){
+        if(user.korisnicko_ime === username && user.lozinka === password){
             localStorage.setItem("user", JSON.stringify(user))
+            setLogged (true)
+            navigate("/")
+           
             }
      })
+
+     if(!logged){
+        NotificationManager.error('Pogresni podaci. Pokusaj ponovo', 'Greskaaaa', 5000);
+     }
     }
     return (
-        <Container>
-            
-            <NavbarHeader className="container-fluid" />
-            <MDBContainer fluid className="p-3 my-5 h-custom">
-
-                <MDBRow>
-
-                    <MDBCol col='10' md='6'>
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Sample image" />
-                    </MDBCol>
-
-                    <MDBCol col='4' md='6'>
-                        <MDBInput  wrapperClass='mb-4' label='Email address' id='email' type='email' size="lg" onChange={getEmail} />
-                        <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password' size="lg" onChange={getPass} />
-
-                        <div className="d-flex justify-content-between mb-4">
-                            <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
-                            <a href="!#">Forgot password?</a>
-                        </div>
-
-                        <div className='text-center text-md-start mt-4 pt-2'>
-                            <MDBBtn className="mb-0 px-5" size='lg' onClick={checkUser}>Login</MDBBtn>
-                            <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a href="#!" className="link-danger">Register</a></p>
-                        </div>
-
-                    </MDBCol>
-
-                </MDBRow>
-
-
+     
+            <div >
+            <NavbarHeader />
+            <MDBContainer fluid className='d-flex align-items-center justify-content-center bg-image min-vh-100' style={{backgroundImage: 'url(/pictures/course_background.jpg)'}}>
+                        <div className='mask gradient-custom-3'></div>
+                        <MDBCard className='m-5' style={{maxWidth: '600px'}}>
+                            <MDBCardBody className='px-5'>
+                            <h2 className="text-uppercase text-center mb-5">Prijavi se</h2>
+                            <MDBInput wrapperClass='mb-4' label='Korisničko ime' size='lg' id='username' type='text' name='username' onChange={getUsername}/>
+                            <MDBInput wrapperClass='mb-4' label='Lozinka' size='lg' id='password' type='password' name='password' onChange={getPassword}/>
+                            <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' onClick={checkUser}>Prijavi se</MDBBtn>
+                            <h5 className="text-center">Nemaš nalog? <a href="/register">Registruj se</a></h5>
+                            </MDBCardBody>
+                         </MDBCard>      
             </MDBContainer>
+          
             <Footer />
-        </Container>
+              <NotificationContainer />
+            </div>
+            
+        
     )
 }
 
