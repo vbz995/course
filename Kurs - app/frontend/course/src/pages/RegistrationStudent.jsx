@@ -12,40 +12,40 @@ import NavbarHeader from '../components/Navbar';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns'
 
 
- const RegistrationTeacher = () => {
+ const RegistrationStudent = () => {
   const navigate = useNavigate();
-    const [teacher, setTeacher] = useState({
+    const [student, setStudent] = useState({
        name: "",
         lastName: "",
         address: "",
-        bio: "",
+        birthDate: null,
         userId: localStorage.getItem("userId")
 
 })
 const getNameValue = (e) => {
 
-       teacher.name =  e.target.value;
+       student.name =  e.target.value;
     
 }
 const getLastNameValue = (e) => {
 
-       teacher.lastName =  e.target.value;
+       student.lastName =  e.target.value;
     
 }
 const getAddressValue = (e) => {
 
-       teacher.address =  e.target.value;
+       student.address =  e.target.value;
     
 }
-const getBioValue = (e) => {
+const getBirthDateValue = (e) => {
 
-       teacher.bio =  e.target.value;
-    
+       student.birthDate =  format(new Date(e.target.value), "yyyy-MM-dd") ;   
 }
 const checkUser = () => {
-           axios.post("http://localhost:5000/api/teacher/", teacher)
+           axios.post("http://localhost:5000/api/student/", student)
            .then(res => {
             if(res.status == 201){
                 navigate("/login")
@@ -64,7 +64,7 @@ const checkUser = () => {
           <MDBInput wrapperClass='mb-4' label='Ime' size='lg' id='name' type='text' name='name' onChange={getNameValue}/>
            <MDBInput wrapperClass='mb-4'label='Prezime' size='lg' id='lastName' type='text' name='lastName' onChange={getLastNameValue}/>
           <MDBInput wrapperClass='mb-4' label='Adresa' size='lg' id='address' type='text' name='address' onChange={getAddressValue}/>
-          <textarea wrapperClass='mb-4' label='Biografija' size='lg' id='bio' name='bio' onChange={getBioValue} cols="30" rows="10"></textarea>
+          <MDBInput wrapperClass='mb-4' label='Datum rođenja' size='lg' id='birthDate' type='date' name='birthDate' onChange={getBirthDateValue}/>
           <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' onClick={checkUser}>Registruj se</MDBBtn>
         </MDBCardBody>
       </MDBCard>      
@@ -74,4 +74,4 @@ const checkUser = () => {
    
   )
 }
-export default RegistrationTeacher
+export default RegistrationStudent

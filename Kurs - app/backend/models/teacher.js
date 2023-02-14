@@ -22,8 +22,8 @@ const getTeacher = (request, response)=>{
 }
 
 const addTeacher = (request, response) => {
-   const {ime,prezime,email,adresa,biografija} = request.body;
-    pool.query('INSERT INTO "Predavac" (ime, prezime, email, adresa, biografija) VALUES ($1, $2, $3, $4, $5)',[ime,prezime, email,adresa,biografija],(err,res)=>{
+   const {name,lastName,address,bio,userId} = request.body;
+    pool.query('INSERT INTO "Predavac" (ime, prezime, adresa, biografija, id_korisnika) VALUES ($1, $2, $3, $4, $5)',[name,lastName, address,bio,userId],(err,res)=>{
         if(err){
             throw err;
         }

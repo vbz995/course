@@ -24,11 +24,12 @@ const getUser = (request, response) => {
 const addUser = (request, response) => {
     const {username, password, email}=request.body;
 
-    pool.query('INSERT INTO "Korisnik" (korisnicko_ime, lozinka,email) VALUES ($1, $2, $3)', [username, password, email], (err, res) => {
+    pool.query('INSERT INTO "Korisnik" (korisnicko_ime, lozinka,email) VALUES ($1, $2, $3) RETURNING id', [username, password, email], (err, res) => {
         if (err) {
             throw err;
         }
-        response.status(201).send("Uspjesno dodat rekord");
+        console.log(res.rows[0].id)
+        response.status(201).send({"id":res.rows[0].id});
     });
 }
 

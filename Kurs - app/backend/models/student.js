@@ -23,8 +23,9 @@ const getStudent = (request, response)=>{
 }
 
 const addStudent = (request, response) => {
-    const {ime, prezime, email, datum_rodjenja, jmgb, adresa} = request.body;
-    pool.query('INSERT INTO "Polaznik" (ime, prezime, email, datum_rodjenja, jmbg, adresa) VALUES ($1, $2, $3, $4, $5, $6)',[ime,prezime,email,datum_rodjenja,jmgb,adresa],(err,res)=>{
+    const {name, lastName, birthDate, address, userId} = request.body;
+    console.log(request.body)
+    pool.query('INSERT INTO "Polaznik" (ime, prezime, datum_rodjenja, adresa, id_korisnika) VALUES ($1, $2, $3, $4, $5)',[name,lastName,birthDate,address,userId],(err,res)=>{
         if(err){
             throw err;
         }

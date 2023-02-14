@@ -59,9 +59,9 @@ const checkUser = () => {
     if(user.password == user.repeatPassword && user.username != "" && user.email!="" && user.password !="" && user.terms){
            axios.post("http://localhost:5000/api/user/", user)
            .then(res => {
-            console.log(navigate)
             if(res.status == 201){
-                navigate("/")
+               localStorage.setItem("userId", res.data.id)
+                navigate("/register/role")
               }
            })
     }

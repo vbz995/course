@@ -8,6 +8,8 @@ import Course from './pages/Course';
 import  Registration  from './pages/Registration';
 import Login from './pages/Login'
 import Role from './pages/Role';
+import RegistrationTeacher from './pages/RegistrationTeacher';
+import RegistrationStudent from './pages/RegistrationStudent';
 
 function App() {
   
@@ -20,7 +22,8 @@ function App() {
         <Route path="/course/:id" element={<Course />} />
         <Route path="/register" element={<Registration />} />
         <Route path="register/role" element={<Role />} />
-     
+        <Route path="register/teacher" element={<RegistrationTeacher />} />
+        <Route path="register/student" element={<RegistrationStudent />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
