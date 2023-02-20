@@ -28,7 +28,6 @@ const addUser = (request, response) => {
         if (err) {
             throw err;
         }
-        console.log(res.rows[0].id)
         response.status(201).send({"id":res.rows[0].id});
     });
 }
