@@ -10,6 +10,7 @@ import Login from './pages/Login'
 import Role from './pages/Role';
 import RegistrationTeacher from './pages/RegistrationTeacher';
 import RegistrationStudent from './pages/RegistrationStudent';
+import AddCourse from './pages/AddCourse';
 
 function App() {
   
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/course" element={<AllCourses />} />
         <Route path="/course/:id" element={<Course />} />
+        <Route path="/course/create" element={<AddCourse />} />
         <Route path="/register" element={<Registration />} />
         <Route path="register/role" element={<Role />} />
         <Route path="register/teacher" element={<RegistrationTeacher />} />

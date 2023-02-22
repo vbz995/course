@@ -8,7 +8,7 @@ import Header from "../components/Header"
 import NavbarHeader from "../components/Navbar"
 
 const AllCourses = ()=>{
-    const fotografija ="https://scontent-mxp2-1.xx.fbcdn.net/v/t1.6435-9/120192815_3664448090254785_1112644891471240032_n.png?stp=dst-png_s1080x2048&_nc_cat=100&ccb=1-7&_nc_sid=730e14&_nc_ohc=QMzAkJovMDIAX855IeO&_nc_ht=scontent-mxp2-1.xx&oh=00_AfCBG6kWvn4rH5P6Rw7ImGxZXb6PoI4fboKHJSzINITpzA&oe=6403563A";
+    const fotografija ="/pictures/course_default.png";
     const id = useParams().id;
     const [course, setCourse] = useState({})
     useEffect(()=>{
@@ -20,20 +20,17 @@ const AllCourses = ()=>{
             <Header />
             <NavbarHeader />
              <Row>
-              <Col>
+              <Col xs={12}>
                <h1 className="text-center">{course.naziv}</h1>
               </Col>
-            </Row>
-            <Row>
-              <Col>
-               <img src={course.fotografija?course.fotografija:fotografija} className=' shadow-4  w-100' alt='...' />
+              <Col xs={12} className="h-50">
+               <img src={course.fotografija?course.fotografija:fotografija} className='shadow-4 img-fluid' alt='...' /> 
               </Col>
-            </Row>
-            <Row>
+               <Col xs={12} className="d-flex justify-content-between">
                 <h3>{course.info}</h3>
-            </Row>
-            <Row>
-                <Col className="text-justify">
+              </Col>
+                
+                <Col xs={12} className="text-justify">
                {course.detaljan_opis}
                 </Col>
 

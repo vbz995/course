@@ -1,5 +1,7 @@
 
 
+const { response } = require("express");
+const { request } = require("../controllers/course");
 const pool = require("../databaseConnection")
 
 
@@ -28,12 +30,12 @@ const getCourse = (request, response)=>{
 
 const addCourse = (request, response, next) => {
     
-    const {naziv, nivo, datumPocetka, datumZavrsetka, info} = request.body
-   pool.query('INSERT INTO "Kurs" (naziv, nivo, trajanje_od, trajanje_do, info) VALUES ($1, $2, $3, $4, $5)',[naziv,nivo,datumPocetka,datumZavrsetka,info],(err,res)=>{
+    const {name, level, dateFrom, dateTo, info, description, image} = request.body
+   pool.query('INSERT INTO "Kurs" (naziv, nivo, trajanje_od, trajanje_do, info, detaljan_opis, fotografija) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',[name,level,dateFrom,dateTo,info, description, image],(err,res)=>{
         if(err){
             throw err;
         }
-        response.status(201).send("Uspjesno dodat rekord");
+        response.status(201).send({"id":res.rows[0].id});
     });
    
 }
@@ -60,11 +62,23 @@ const deleteCourse = (request, response)=>{
     })
 }
 
+const addTeacherToCourse = (request, response)=>{
+    const {courseId, teacherId} = request.body;
+    pool.query ('INSERT INTO "KursPredavac" (id_predavaca, id_kursa) VALUES ($1,$2)', [teacherId, courseId], (err, res)=>{
+        if(err){
+          throw err;
+        }
+        response.status(201).send("Uspjesno dodat rekord");
+        
+    })
+}
+
 
 module.exports={
     getAllCourses,
     getCourse, 
     addCourse,
     updateCourse,
-    deleteCourse
+    deleteCourse,
+    addTeacherToCourse
 }
