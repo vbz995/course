@@ -11,6 +11,7 @@ import Role from './pages/Role';
 import RegistrationTeacher from './pages/RegistrationTeacher';
 import RegistrationStudent from './pages/RegistrationStudent';
 import AddCourse from './pages/AddCourse';
+import EditCourse from './pages/EditCourse';
 
 function App() {
   
@@ -22,10 +23,11 @@ function App() {
         <Route path="/course" element={<AllCourses />} />
         <Route path="/course/:id" element={<Course />} />
         <Route path="/course/create" element={<AddCourse />} />
+        <Route path="/course/edit/:id" element={<EditCourse />} />
         <Route path="/register" element={<Registration />} />
-        <Route path="register/role" element={<Role />} />
-        <Route path="register/teacher" element={<RegistrationTeacher />} />
-        <Route path="register/student" element={<RegistrationStudent />} />
+        <Route path="/register/role" element={<Role />} />
+        <Route path="/register/teacher" element={<RegistrationTeacher />} />
+        <Route path="/register/student" element={<RegistrationStudent />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>

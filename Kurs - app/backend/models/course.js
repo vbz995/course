@@ -30,8 +30,8 @@ const getCourse = (request, response)=>{
 
 const addCourse = (request, response, next) => {
     
-    const {name, level, dateFrom, dateTo, info, description, image} = request.body
-   pool.query('INSERT INTO "Kurs" (naziv, nivo, trajanje_od, trajanje_do, info, detaljan_opis, fotografija) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',[name,level,dateFrom,dateTo,info, description, image],(err,res)=>{
+    const {name, level, dateFrom, dateTo, info, description, image, teacherId} = request.body
+   pool.query('INSERT INTO "Kurs" (naziv, nivo, trajanje_od, trajanje_do, info, detaljan_opis, fotografija, id_predavaca) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',[name,level,dateFrom,dateTo,info, description, image, teacherId],(err,res)=>{
         if(err){
             throw err;
         }
@@ -42,8 +42,8 @@ const addCourse = (request, response, next) => {
 
 const updateCourse = (request, response) => {
     const id = request.params.id;
-    const {naziv, nivo, datumPocetka, datumZavrsetka, info} = request.body;
-    pool.query('UPDATE "Kurs" SET naziv = $1, nivo = $2, trajanje_od = $3, trajanje_do=$4, info = $5 WHERE id = $6', [naziv,nivo, datumPocetka,datumZavrsetka,info,id], (err,res)=>{
+    const {naziv, nivo, trajanje_od, trajanje_do, info, detaljan_opis, fotografija, id_predavaca} = request.body;
+    pool.query('UPDATE "Kurs" SET naziv = $1, nivo = $2, trajanje_od = $3, trajanje_do=$4, info = $5, detaljan_opis=$6, fotografija = $7, id_predavaca=$8 WHERE id = $9', [naziv,nivo, trajanje_od, trajanje_do,info,detaljan_opis,fotografija,id_predavaca,id], (err,res)=>{
         if(err){
             throw err;
         }
@@ -62,23 +62,10 @@ const deleteCourse = (request, response)=>{
     })
 }
 
-const addTeacherToCourse = (request, response)=>{
-    const {courseId, teacherId} = request.body;
-    pool.query ('INSERT INTO "KursPredavac" (id_predavaca, id_kursa) VALUES ($1,$2)', [teacherId, courseId], (err, res)=>{
-        if(err){
-          throw err;
-        }
-        response.status(201).send("Uspjesno dodat rekord");
-        
-    })
-}
-
-
 module.exports={
     getAllCourses,
     getCourse, 
     addCourse,
     updateCourse,
     deleteCourse,
-    addTeacherToCourse
 }

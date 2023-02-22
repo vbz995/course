@@ -6,7 +6,6 @@ import {
   MDBCardBody,
   MDBInput,
   MDBTextArea,
-  MDBFile
 }
 from 'mdb-react-ui-kit';
 import Header from '../components/Header';
@@ -19,11 +18,6 @@ import { useNavigate } from 'react-router-dom';
  const AddCourse = () => {
   const navigate = useNavigate();
   const [teachers, setTeacher] = useState([]);
-  const courseTeacher = {
-    courseId:null,
-    teacherId:null
-
-  }
   useEffect(()=>{
         axios.get("http://localhost:5000/api/teacher/")
         .then(res => setTeacher(res.data))
@@ -36,7 +30,8 @@ import { useNavigate } from 'react-router-dom';
         dateTo: null,
         info: "",
         description: "",
-        image: null
+        image: null,
+        teacherId:null
 
 })
 const getNameValue = (e) => {
@@ -71,7 +66,7 @@ const getInfo = (e) => {
 }
 
 const getTeacher =(e)=>{
-    courseTeacher.teacherId = e.target.value
+    course.teacherId = e.target.value
 }
 const getImagePath = (e) => {
     var file = e.target.files[0]
@@ -90,16 +85,7 @@ const createCourse = () => {
            axios.post("http://localhost:5000/api/course/", course)
            .then(res => {
             if(res.status == 201){
-                console.log(res)
-               courseTeacher.courseId = res.data.id
-               console.log(courseTeacher.courseId)
-               console.log(courseTeacher.teacherId)
-                 axios.post("http://localhost:5000/api/course/courseTeacher", courseTeacher)
-                 .then (res=>{
-                    if(res.status == 201){
-                            navigate("/");
-                    }
-                 })
+                 navigate("/");  
               }
            })
 
