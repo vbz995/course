@@ -20,6 +20,8 @@
     "react-bootstrap": "^2.7.0",
     "react-desktop-notification": "^1.0.9",
     "react-dom": "^18.2.0",
+    "react-drag-drop-files": "^2.3.8",
+    "react-files": "^3.0.0",
     "react-notifications": "^1.7.4",
     "react-router-dom": "^6.8.0",
     "react-scripts": "5.0.1",

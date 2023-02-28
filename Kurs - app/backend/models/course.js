@@ -62,10 +62,24 @@ const deleteCourse = (request, response)=>{
     })
 }
 
+const addMaterial = (request, response) => {
+
+    const id_kursa = request.params.id;
+    const {material, name} = request.body;
+
+    pool.query('INSERT INTO "Materijal" (materijal, id_kursa, naziv) VALUES ($1, $2, $3)', [material, id_kursa, name], (err, res)=>{
+        if(err){
+            throw err;
+        }
+        response.status(201).send("Uspjesno dodat materijal");
+    })
+}
+
 module.exports={
     getAllCourses,
     getCourse, 
     addCourse,
     updateCourse,
     deleteCourse,
+    addMaterial
 }

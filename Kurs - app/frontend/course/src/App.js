@@ -12,6 +12,7 @@ import RegistrationTeacher from './pages/RegistrationTeacher';
 import RegistrationStudent from './pages/RegistrationStudent';
 import AddCourse from './pages/AddCourse';
 import EditCourse from './pages/EditCourse';
+import Material from './components/Material';
 
 function App() {
   
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/course" element={<AllCourses />} />
         <Route path="/course/:id" element={<Course />} />
+        <Route path="/course/material" element={<Material />} />
         <Route path="/course/create" element={<AddCourse />} />
         <Route path="/course/edit/:id" element={<EditCourse />} />
         <Route path="/register" element={<Registration />} />

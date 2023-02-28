@@ -9,4 +9,5 @@ app.get("/:id", courseModel.getCourse);
 app.post("/", courseModel.addCourse);
 app.put("/:id", courseModel.updateCourse);
 app.delete("/:id", courseModel.deleteCourse);
+app.post("/:id", courseModel.addMaterial);
 module.exports=app;
