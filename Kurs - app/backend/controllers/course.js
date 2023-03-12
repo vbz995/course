@@ -10,4 +10,7 @@ app.post("/", courseModel.addCourse);
 app.put("/:id", courseModel.updateCourse);
 app.delete("/:id", courseModel.deleteCourse);
 app.post("/:id", courseModel.addMaterial);
+app.get("/:id/material", courseModel.getCourseMaterial);
+app.post("/:id/student", courseModel.addStudentToCourse);
+app.get("/:id/students", courseModel.getCourseStudents);
 module.exports=app;

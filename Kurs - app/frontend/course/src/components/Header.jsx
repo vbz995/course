@@ -1,4 +1,5 @@
 import { Row, Col, Dropdown} from "react-bootstrap";
+import { FaFacebook, FaInstagram, FaGithub } from "react-icons/fa";
 const Header = () => {
     var user = null;
     if(localStorage.getItem("user")){
@@ -11,18 +12,19 @@ const Header = () => {
     }
     return (
         <Row  className="justify-content-between header" >
-            <Col xs = {3} >
+            <Col xs = {1} className="d-flex justify-content-between" >
+              <a href="https://www.facebook.com/" className="text-white"><FaFacebook /></a>
+              <a href="https://www.instagram.com/" className="text-white"><FaInstagram /></a>
+              <a href="https://github.com/login" className="text-white"><FaGithub /></a>
             </Col>
             <Col xs = {3} className = "text-end">
             <Dropdown className="dropdownMenu">
      
-        {isLogged? <Dropdown.Toggle  id="dropdown-basic"> {user.korisnicko_ime}  </Dropdown.Toggle>: <a href="/login" className="text-white p-2"> Prijavi se </a>}
+        {isLogged? <Dropdown.Toggle  className="bg-blue" id="dropdown-basic"> {user.korisnicko_ime}  </Dropdown.Toggle>: <a href="/login" className="text-white p-2"> Prijavi se </a>}
      
 
       <Dropdown.Menu>
         <Dropdown.Item href="/" onClick={logout}>Odjavi se</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
             </Col>

@@ -16,6 +16,7 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from 'mdb-react-ui-kit';
+import Material from "../components/Material"
 
 
 const AllCourses = ()=>{
@@ -25,14 +26,30 @@ const AllCourses = ()=>{
     const isAdmin = user.isAdmin? true: false
     const id = useParams().id;
     const [course, setCourse] = useState({})
+    const [students, setStudents] = useState([])
     const [deleteModal, setDeleteModal] = useState()
+    const [subscribeModal, setSubscribeModal] = useState()
+    const [student, setStudent]=useState()
+    const [courseStudents, setCourseStudents]=useState([])
+    const [isSubscribed, setIsSubscribed]=useState(false)
+
     useEffect(()=>{
+       
         axios.get("http://localhost:5000/api/course/"+id)
         .then((res)=>setCourse(res.data[0]))
     },[])
-
+    useEffect(()=>{
+        axios.get("http://localhost:5000/api/student/")
+        .then((res)=>setStudents(res.data.map(
+                student => {
+                    if(student.id_korisnika==user.id){
+                   setStudent(student)
+            }
+        }
+        )))
+    },[])
     const toggleShow = () => setDeleteModal(!deleteModal);
-
+    const toggleShowSubscibe = () => setDeleteModal(!subscribeModal);
     const deleteCourse = ()=>{
         axios.delete("http://localhost:5000/api/course/"+id)
         .then((res)=>{
@@ -41,7 +58,36 @@ const AllCourses = ()=>{
             }
         })
     }
+
+    const subscribe = () => {
+       axios.post("http://localhost:5000/api/course/"+course.id+"/student", student)
+        .then(res=>{
+            if(res.status==201){
+                navigate("/course/"+course.id)
+            }
+        })
+    }
+
+        useEffect(()=>{
+               
+                 axios.get("http://localhost:5000/api/course/"+course.id+"/students")
+                 .then((res)=>{
+                         if(res.status==200){
+                                setCourseStudents(res.data)
+                                res.data.map(s=>{
+                                    if(student.id == s.id_polaznika){
+                                        setIsSubscribed(true)
+                                    }
+                                })
+                        }
+                 })
+                 
+        }, [])
+        
+           
+    
     return (
+
         <div>
             <MDBModal show={deleteModal} setShow={setDeleteModal} tabIndex='-1'>
                 <MDBModalDialog>
@@ -65,7 +111,8 @@ const AllCourses = ()=>{
             </MDBModal>
             <Header />
             <NavbarHeader />
-             <Row>
+            {isSubscribed ? <Material /> :
+             <Row className="mx-5">
                
                 <Col xs={12} className={isAdmin?"d-flex":"d-none"}>
               <a href={"/course/edit/"+id}> <button>Izmjeni</button> </a>
@@ -75,8 +122,8 @@ const AllCourses = ()=>{
               <Col xs={12}>
                <h1 className="text-center">{course.naziv}</h1>
               </Col>
-              <Col xs={12} className="h-50">
-               <img src={course.fotografija?course.fotografija:fotografija} className='shadow-4 img-fluid' alt='...' /> 
+              <Col xs={12}>
+               <img src={course.fotografija?course.fotografija:fotografija} className='shadow-4 courseImage' alt='...' /> 
               </Col>
                <Col xs={12} className="d-flex justify-content-between">
                 <h3>{course.info}</h3>
@@ -85,8 +132,12 @@ const AllCourses = ()=>{
                 <Col xs={12} className="text-justify">
                {course.detaljan_opis}
                 </Col>
+                <Col xs={12} className="text-center">
 
+                     <MDBBtn className={student?'mb-4 w-100 gradient-custom-4':"d-none"} size='lg' onClick={subscribe}>Prijavi se</MDBBtn>
+                </Col>
             </Row>
+             }
             <Footer />
         </div>
     )

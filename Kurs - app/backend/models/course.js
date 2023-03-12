@@ -52,7 +52,6 @@ const updateCourse = (request, response) => {
      
 }
 const deleteCourse = (request, response)=>{
-    const id = request.params.id;
     pool.query('DELETE FROM "Kurs" WHERE id = $1', [id], (err, res)=>{
         if(err){
           throw err;
@@ -66,7 +65,6 @@ const addMaterial = (request, response) => {
 
     const id_kursa = request.params.id;
     const {material, name} = request.body;
-
     pool.query('INSERT INTO "Materijal" (materijal, id_kursa, naziv) VALUES ($1, $2, $3)', [material, id_kursa, name], (err, res)=>{
         if(err){
             throw err;
@@ -75,11 +73,45 @@ const addMaterial = (request, response) => {
     })
 }
 
+const getCourseMaterial = (request, response) => {
+    const id_kursa = request.params.id
+    pool.query('SELECT * FROM "Materijal" WHERE id_kursa = $1',[id_kursa],(err, res)=>{
+        if(err){
+            throw err;
+        }
+        response.status(200).json(res.rows)
+    })
+}
+
+const addStudentToCourse = (request, response) => {
+    const course_id = request.params.id;
+    const student_id = request.body.id
+    pool.query('INSERT INTO "PolaznikKurs" (id_polaznika, id_kursa) VALUES ($1, $2)', [student_id, course_id], (err,res)=> {
+        if(err){
+            throw err;
+        }
+
+        response.status(201).send("Uspjesno dodan student")
+    })
+}
+const getCourseStudents = (request, response) => {
+    const course_id = request.params.id;
+    pool.query('SELECT * FROM "PolaznikKurs" WHERE id_kursa = $1', [course_id], (err,res)=> {
+        if(err){
+            throw err;
+        }
+
+        response.status(200).json(res.rows)
+    })
+}
 module.exports={
     getAllCourses,
     getCourse, 
     addCourse,
     updateCourse,
     deleteCourse,
-    addMaterial
+    addMaterial,
+    getCourseMaterial,
+    addStudentToCourse,
+    getCourseStudents
 }

@@ -27,7 +27,7 @@ const Login = () => {
     }
     const checkUser = () => {
      users.map(user=>{
-        if(user.korisnicko_ime === username && user.lozinka === password){
+        if(user.korisnicko_ime == username && user.lozinka == password){
             localStorage.setItem("user", JSON.stringify(user))
             setLogged (true)
             navigate("/")

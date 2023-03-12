@@ -8,10 +8,32 @@
   color: white;
   text-align: center;
  }
-
  .header {
     background-color: #0d8ad5;
     color: white !important;
  }
 
- 
+ .bg-blue{
+  background-color: #0d8ad5 !important;
+ }
+.carouselImage {
+  width: 100%;
+    height: 50vh;
+    object-fit:fill;
+}
+
+.cardImage{
+  width: 100%;
+    height: 20vh;
+    object-fit:fill;
+}
+.courseImage{
+  width: 100%;
+    height: 60vh;
+    object-fit:fill;
+}
+
+.imageUpload{
+  max-width: none !important;
+  width: 100% !important;
+}

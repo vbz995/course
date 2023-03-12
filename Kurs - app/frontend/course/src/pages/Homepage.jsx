@@ -10,6 +10,7 @@ import Header from "../components/Header"
 import NavbarHeader from "../components/Navbar"
 
 
+
 const Homepage = () => {
     const [courses, setCourses] = useState([])
     useEffect(()=>{
@@ -20,7 +21,7 @@ const Homepage = () => {
         <div>
             <Header />
             <NavbarHeader />
-            <CarouselPage />
+            <CarouselPage/>
             <Row>
             {courses.slice(0,4).map((c)=>{
             return (
@@ -29,7 +30,10 @@ const Homepage = () => {
             })
             }
             <Col xs={12} className="text-center">
-                 <MDBBtn href='/course'>Pogledaj sve kurseve</MDBBtn>
+                 <MDBBtn className="bg-blue my-3" href='/course'>Pogledaj sve kurseve</MDBBtn>
+            </Col>
+            <Col xs={6}>
+                <img src="/pictures/mapa.png" className="w-100" alt="" />
             </Col>
             </Row>
            

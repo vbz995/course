@@ -13,7 +13,7 @@ import {
 } from 'mdb-react-ui-kit';
 const NavbarHeader = () => {
     return(
-<MDBNavbar  expand='lg' light bgColor='light'>
+<MDBNavbar  expand='lg' light bgColor='light' sticky>
       <MDBContainer fluid>
         <MDBNavbarBrand href='/'>Lingua</MDBNavbarBrand>
 
@@ -46,8 +46,8 @@ const NavbarHeader = () => {
           </MDBNavbarNav>
 
           <form className='d-flex input-group w-auto'>
-            <input type='search' className='form-control' placeholder='Type query' aria-label='Search' />
-            <MDBBtn color='primary'>Search</MDBBtn>
+            <input type='search' className='form-control' placeholder='Pretrazite...' aria-label='Search' />
+            <MDBBtn className='bg-blue'>Pretrazi</MDBBtn>
           </form>
         </MDBCollapse>
       </MDBContainer>
