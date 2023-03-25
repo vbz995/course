@@ -1,9 +1,9 @@
 
 const Footer = () => {
     return (
-      <div className="d-flex  text-center py-4 px-4 footer">
+      <div className="text-center p-2 footer">
       <div className="mb-3 mb-md-0">
-          Copyright © 2020. All rights reserved.
+          Bozidar Vrbarac, 2023
       </div>
   </div>
 

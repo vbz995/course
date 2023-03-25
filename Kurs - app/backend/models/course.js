@@ -52,6 +52,9 @@ const updateCourse = (request, response) => {
      
 }
 const deleteCourse = (request, response)=>{
+        const id = request.params.id;
+        deleteMaterial(id);
+        deleteStudents(id);
     pool.query('DELETE FROM "Kurs" WHERE id = $1', [id], (err, res)=>{
         if(err){
           throw err;
@@ -60,7 +63,20 @@ const deleteCourse = (request, response)=>{
         
     })
 }
-
+const deleteMaterial =(id) =>{
+     pool.query('DELETE FROM "Materijal" WHERE id_kursa = $1', [id], (err, res)=>{
+        if(err){
+          throw err;
+        }
+         })
+}
+const deleteStudents =(id) =>{
+     pool.query('DELETE FROM "PolaznikKurs" WHERE id_kursa = $1', [id], (err, res)=>{
+        if(err){
+          throw err;
+        }
+         })
+}
 const addMaterial = (request, response) => {
 
     const id_kursa = request.params.id;

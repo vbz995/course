@@ -23,7 +23,7 @@ const Header = () => {
         {isLogged? <Dropdown.Toggle  className="bg-blue" id="dropdown-basic"> {user.korisnicko_ime}  </Dropdown.Toggle>: <a href="/login" className="text-white p-2"> Prijavi se </a>}
      
 
-      <Dropdown.Menu>
+      <Dropdown.Menu style={{zIndex:10000000}}>
         <Dropdown.Item href="/" onClick={logout}>Odjavi se</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

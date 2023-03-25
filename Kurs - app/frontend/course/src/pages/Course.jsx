@@ -23,7 +23,7 @@ const AllCourses = ()=>{
     const fotografija ="/pictures/course_default.png";
     const navigate = useNavigate();
     const user = localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null;
-    const isAdmin = user.isAdmin? true: false
+    const isAdmin = user && user.isAdmin? true: false
     const id = useParams().id;
     const [course, setCourse] = useState({})
     const [students, setStudents] = useState([])
@@ -32,24 +32,59 @@ const AllCourses = ()=>{
     const [student, setStudent]=useState()
     const [courseStudents, setCourseStudents]=useState([])
     const [isSubscribed, setIsSubscribed]=useState(false)
+    const [teacher, setTeacher]=useState({})
 
-    useEffect(()=>{
-       
-        axios.get("http://localhost:5000/api/course/"+id)
-        .then((res)=>setCourse(res.data[0]))
-    },[])
-    useEffect(()=>{
-        axios.get("http://localhost:5000/api/student/")
-        .then((res)=>setStudents(res.data.map(
-                student => {
-                    if(student.id_korisnika==user.id){
-                   setStudent(student)
-            }
-        }
-        )))
-    },[])
+
     const toggleShow = () => setDeleteModal(!deleteModal);
     const toggleShowSubscibe = () => setDeleteModal(!subscribeModal);
+    
+    useEffect(()=>{
+        axios.get("http://localhost:5000/api/student/")
+        .then(res=>{
+            if(res.status==200){
+                res.data.map(s=>{
+                    if(user && user.id == s.id_korisnika){
+                        setStudent(s)
+                    }
+                })
+            }
+        })
+    },[])
+    useEffect(()=>{
+        axios.get("http://localhost:5000/api/course/"+id)
+        .then(res=>{
+            if(res.status == 200){
+                setCourse(res.data[0])
+                axios.get("http://localhost:5000/api/course/"+res.data[0].id+"/students")
+                .then(response => {
+                    if(response.status==200){
+                        setCourseStudents(response.data)
+                        response.data.map(s=>{
+
+                           if(student && student.id == s.id_polaznika){
+                            console.log(s)
+                            setIsSubscribed(true);
+                           }
+                        })
+                    }
+                })
+            }
+        })
+    }, [student])
+
+    useEffect(()=>{
+        if(course.id_predavaca){
+            console.log(course.id_predavaca)
+                axios.get("http://localhost:5000/api/teacher/"+course.id_predavaca)
+                .then(res=>{
+                    if(res.status == 200){
+                        console.log(res)
+                        setTeacher(res.data[0])
+                    }
+                })
+        }
+        
+    }, [course])
     const deleteCourse = ()=>{
         axios.delete("http://localhost:5000/api/course/"+id)
         .then((res)=>{
@@ -63,29 +98,10 @@ const AllCourses = ()=>{
        axios.post("http://localhost:5000/api/course/"+course.id+"/student", student)
         .then(res=>{
             if(res.status==201){
-                navigate("/course/"+course.id)
+               window.location.reload();
             }
         })
-    }
-
-        useEffect(()=>{
-               
-                 axios.get("http://localhost:5000/api/course/"+course.id+"/students")
-                 .then((res)=>{
-                         if(res.status==200){
-                                setCourseStudents(res.data)
-                                res.data.map(s=>{
-                                    if(student.id == s.id_polaznika){
-                                        setIsSubscribed(true)
-                                    }
-                                })
-                        }
-                 })
-                 
-        }, [])
-        
-           
-    
+    }   
     return (
 
         <div>
@@ -111,12 +127,12 @@ const AllCourses = ()=>{
             </MDBModal>
             <Header />
             <NavbarHeader />
-            {isSubscribed ? <Material /> :
+            {isSubscribed || (teacher&&user&&user.id == teacher.id_korisnika)? <Material student={student} course={course} user={user} /> :
              <Row className="mx-5">
                
                 <Col xs={12} className={isAdmin?"d-flex":"d-none"}>
-              <a href={"/course/edit/"+id}> <button>Izmjeni</button> </a>
-              <button onClick={toggleShow}>Obrisi</button>
+              <a href={"/course/edit/"+id}> <MDBBtn>Izmjeni</MDBBtn> </a>
+              <MDBBtn onClick={toggleShow}>Obrisi</MDBBtn>
               </Col>
                
               <Col xs={12}>

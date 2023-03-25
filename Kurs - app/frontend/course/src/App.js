@@ -13,6 +13,8 @@ import RegistrationStudent from './pages/RegistrationStudent';
 import AddCourse from './pages/AddCourse';
 import EditCourse from './pages/EditCourse';
 import Material from './components/Material';
+import { About } from './pages/About';
+import Contact from './pages/Contact';
 
 function App() {
   
@@ -31,6 +33,8 @@ function App() {
         <Route path="/register/teacher" element={<RegistrationTeacher />} />
         <Route path="/register/student" element={<RegistrationStudent />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
     </Container>

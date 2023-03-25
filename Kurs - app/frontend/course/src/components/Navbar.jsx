@@ -14,7 +14,7 @@ import {
 const NavbarHeader = () => {
     return(
 <MDBNavbar  expand='lg' light bgColor='light' sticky>
-      <MDBContainer fluid>
+      <MDBContainer fluid className='d-flex justify-content-between'>
         <MDBNavbarBrand href='/'>Lingua</MDBNavbarBrand>
 
         <MDBNavbarToggler
@@ -44,11 +44,6 @@ const NavbarHeader = () => {
               <MDBNavbarLink href='/about'>O nama </MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>
-
-          <form className='d-flex input-group w-auto'>
-            <input type='search' className='form-control' placeholder='Pretrazite...' aria-label='Search' />
-            <MDBBtn className='bg-blue'>Pretrazi</MDBBtn>
-          </form>
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>

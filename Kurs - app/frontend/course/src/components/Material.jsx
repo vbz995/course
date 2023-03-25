@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const fileTypes = ["PDF", "DOCX", "DOC"];
 
 
- const Material = () => {
+ const Material = (props) => {
   const navigate = useNavigate();
   const [material, setMaterial] = useState([])
   const [uploadedFile, setFile] = useState({
@@ -19,7 +19,7 @@ useEffect(()=>{
 
 }, [])
   useEffect(()=>{
-    axios.get("http://localhost:5000/api/course/5/material")
+    axios.get("http://localhost:5000/api/course/"+props.course.id+"/material")
     .then((res)=>setMaterial(res.data))
   }, [material])
 
@@ -29,7 +29,7 @@ useEffect(()=>{
     reader.readAsDataURL(file)
     reader.onload= ()=>{
       uploadedFile.material=reader.result
-       axios.post("http://localhost:5000/api/course/5", uploadedFile)
+       axios.post("http://localhost:5000/api/course/"+props.course.id, uploadedFile)
       .then((res)=> {
       if(res.status == 201){
         console.log(res)
@@ -43,18 +43,22 @@ useEffect(()=>{
 
   };
   return (
-    <div>
-      <Row className='text-center'>
+    <div className='min-vh-100'>
+      <Row>
         <Col xs={12} className="text-center">
           <h3>Materijal</h3>
         </Col>
-        {
-            material.map(mat=>{
-             return <Col className={mat.naziv?"d-flex text-center":"d-none"} xs={6}> <a href={mat.materijal} download={mat.naziv}><FaFile />{`${mat.naziv}`}</a></Col>
-          })
-        }
-        <Col xs={12} className="d-flex">
-          <FileUploader classes="imageUpload my-2" label="Kliknite da izaberete ili prevucite fajl"  handleChange={handleChange} name="file" types={fileTypes} dropMessageStyle={{display:"none"}}/>
+        </Row>
+        <Row className='d-flex justify-content-center'>
+             {
+                  material.map(mat=>{
+                  return <Col className={mat.naziv?" text-center my-2":"d-none"} xs={12}> <a className='w-100 materialItem p-2' href={mat.materijal} download={mat.naziv}><FaFile />{`${mat.naziv}`}</a></Col>
+                })
+              }
+        </Row>
+       <Row className='d-flex justify-content-center'>
+        <Col xs={6} className="d-flex">
+          <FileUploader classes="imageUpload" label="Kliknite da izaberete ili prevucite fajl"  handleChange={handleChange} name="file" types={fileTypes} dropMessageStyle={{display:"none"}}/>
         </Col>
       </Row>
     </div>
